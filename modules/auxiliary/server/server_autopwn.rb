@@ -48,8 +48,7 @@ class MetasploitModule < Msf::Auxiliary
       ])
   $handler = 2000
   $sploit_count = 0
-  $port_count = 0;
-  $done = 0;
+  $port_count = 0
 
   deregister_options('RPORT')
       end
@@ -167,7 +166,7 @@ class MetasploitModule < Msf::Auxiliary
               }
               # increment the handler so that its on a different LPORT
               $handler = $handler + 1
-              $sploit_count = $sploit_count + 1;
+              $sploit_count = $sploit_count + 1
             end
           end
         end
